@@ -63,8 +63,8 @@ angular.module('LastFmRecs.controllers', []).controller('AppCtrl', function($sco
 
 	$scope.queryTag = "";
 	var ascOrder = "glyphicon glyphicon-chevron-down"; // predicate
-	var descOrder = "glyphicon glyphicon-chevron-up"; // -predicate
-	$scope.orderPredicate = "-playcount";
+	var descOrder = "glyphicon glyphicon-chevron-up"; // predicate ; reverse = true
+	$scope.orderPredicate = "playcount; reverse = true"; //descOrder
 
 	$scope.switchIcon = function(id) {
 		var el = document.getElementById(id);
@@ -73,13 +73,13 @@ angular.module('LastFmRecs.controllers', []).controller('AppCtrl', function($sco
 
 	$scope.playCountHeaderClick = function() {
 		var el = document.getElementById("pc_btn");
-		$scope.orderPredicate = (el.className === ascOrder) ? "-playcount" : "playcount";
+		$scope.orderPredicate = (el.className === ascOrder) ? "playcount; reverse = true" : "playcount";
 		el.className = (el.className === ascOrder) ? descOrder : ascOrder;
 	};
 
 	$scope.listenersHeaderClick = function() {
 		var el = document.getElementById("ls_btn");
-		$scope.orderPredicate = (el.className === ascOrder) ? "-listeners" : "listeners";
+		$scope.orderPredicate = (el.className === ascOrder) ? "listeners; reverse = true" : "listeners";
 		el.className = (el.className === ascOrder) ? descOrder : ascOrder;
 	};
 
