@@ -1,4 +1,16 @@
 /* app css stylesheet */
+input {
+	border: 1px dotted #ddd;
+	margin: 2px 5px;
+}
+
+#limitInput {
+	width: 50px;
+}
+
+#tagQueryInput {
+	width: 200px;
+}
 
 .menu {
   list-style: none;
@@ -30,8 +42,10 @@
 }
 
 .rec-table {
+	margin-top: 20px;
 	width: 100%;
 }
+
 .span-controls {
 	float: left;
 	clear: left;
@@ -42,5 +56,19 @@
 	clear: right;
 	font-size: 0.8em;
 	font-style: italic;
+	background-color: #eee;
+	padding: 2px 6px;
 }
 
+.cnt {
+	text-align: center;
+}
+
+.numcell {
+	width: 30px;
+	max-width: 30px;
+}
+.imagecell {
+	width: 64px;
+	max-width: 64px;
+}

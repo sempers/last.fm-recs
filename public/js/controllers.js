@@ -7,6 +7,7 @@ angular.module('LastFmRecs.controllers', []).controller('AppCtrl', function($sco
 	$scope.authorized = false;
 	$scope.api_key = API_KEY;
 	$scope.secret = SECRET;
+	//$scope.hostUrl = "http://localhost:3000";
 	$scope.hostUrl = "http://lfmrecs.herokuapp.com";
 	$scope.token = $location.search().token || localStorage['token'];
 	if ($scope.token) {
@@ -61,8 +62,8 @@ angular.module('LastFmRecs.controllers', []).controller('AppCtrl', function($sco
 	$scope.reload();
 
 	$scope.queryTag = "";
-	var ascOrder = "glyphicon glyphicon-sort-by-order";
-	var descOrder = "glyphicon glyphicon-sort-by-order-alt";
+	var ascOrder = "glyphicon glyphicon-chevron-up";
+	var descOrder = "glyphicon glyphicon-chevron-down";
 	$scope.orderPredicate = "-playcount";
 
 	$scope.switchIcon = function(id) {
