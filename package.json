@@ -1,6 +1,6 @@
 {
-  "name": "application-name",
-  "version": "0.0.1",
+  "name": "lastfm-recs",
+  "version": "0.0.1-1",
   "private": true,
   "dependencies": {
     "express": "*",
@@ -8,5 +8,12 @@
     "sqlite3": "*",
     "async": "*",
     "request": "*"
+  },
+  "subdomain": "lfmrecs",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": "0.10.x"
   }
 }
