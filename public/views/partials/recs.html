@@ -1,0 +1,25 @@
+<span class="span-controls">
+Limit: <input type="text" ng-model="limit" ng-value="{{limit}}" ng-change="validateLimit()"/>
+<a href="#" ng-click="reload()">Reload</a>
+</span>
+<span class="span-status">{{status}}</span>
+<table ng-hide="!authorized" class="table-striped rec-table">
+<tbody>
+<tr>
+<th>#</th>
+<th>Image</th>
+<th>Name</th>
+<th>Tags <input type="text" ng-model="queryTag" placeholder="Tag to filter" ng-value="{{queryTag}}" /> </th>
+<th>Playcount <a ng-click="playCountHeaderClick()"><span id="pc_btn" class="glyphicon glyphicon-sort-by-order" ></span></a></th>
+<th>Listeners <a ng-click="listenersHeaderClick()"><span id="ls_btn" class="glyphicon glyphicon-sort-by-order-alt" ></span></a></th>
+</tr>
+<tr ng-repeat="rec in recs | filter:queryTag:filterByTag | orderBy:orderPredicate">
+<td>{{$index + 1}}</td>
+<td><img src="{{rec.image}}"></td>
+<td><a ng-href="http://last.fm/music/{{rec.name}}">{{rec.name}}</a></td>
+<td>{{rec.tags}}</td>
+<td>{{rec.playcount}}</td>
+<td>{{rec.listeners}}</td>
+</tr>
+</tbody>
+</table>
