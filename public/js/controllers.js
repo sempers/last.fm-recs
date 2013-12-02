@@ -30,7 +30,8 @@ angular.module('LastFmRecs.controllers', []).controller('AppCtrl', function($sco
 
 .controller('RecsCtrl', function($scope, $http) {
 	$scope.recs = [];
-	$scope.limit = (localStorage["lastFmRecsLimit"]) ? parseInt(localStorage["lastFmRecsLimit"], 10) : 200;
+	$scope.limit = (localStorage["lastFmRecsLimit"]) ? parseInt(localStorage["lastFmRecsLimit"], 10) : 100;
+	$scope.status = "Wait for recommendations to load...";
 
 	$scope.validateLimit = function() {
 		if ($scope.limit <= 0 || $scope.limit > 250) {
@@ -44,7 +45,8 @@ angular.module('LastFmRecs.controllers', []).controller('AppCtrl', function($sco
 	};
 
 	$scope.reload = function() {
-		$scope.status = "Recommendations are loading...";
+		console.log($scope.status);
+		$scope.status = "Recommendations are reloading...";
 		localStorage["lastFmRecsLimit"] = $scope.limit;
 		$http.get("/api/recs", {
 			params : {
@@ -57,9 +59,7 @@ angular.module('LastFmRecs.controllers', []).controller('AppCtrl', function($sco
 			$scope.recs = data.data;
 			$scope.status = data.status;
 		});
-	}
-
-	$scope.reload();
+	};
 
 	$scope.p_playcount = function(obj) {
 		return parseInt(obj.playcount, 10);
@@ -71,17 +71,12 @@ angular.module('LastFmRecs.controllers', []).controller('AppCtrl', function($sco
 	$scope.queryTag = "";
 	var ascOrder = "glyphicon glyphicon-chevron-down"; // reverse = false;
 	var descOrder = "glyphicon glyphicon-chevron-up"; // reverse = true;
-	var notActive = "";
 	$scope.orderPredicate = $scope.p_playcount;
 	$scope.reverse = true;
 
 	$scope.switchIcon = function(id) {
 		var el = document.getElementById(id);
 		el.className = (el.className === ascOrder) ? descOrder : ascOrder;
-	};
-
-	$scope.disableIcon = function(id) {
-		document.getElementById(id)
 	};
 
 	$scope.playCountHeaderClick = function() {
@@ -97,11 +92,14 @@ angular.module('LastFmRecs.controllers', []).controller('AppCtrl', function($sco
 	};
 
 	$scope.filterByTag = function(query, obj) {
-		var queries = query.split("|");
-		for ( var i = 0; i < queries.length; i++) {
-			if (obj.tags.indexOf(queries[i]) > 0)
-				return true;
-		}
-		return false;
+		return (obj.tags.indexOf(query) > 0);
 	};
+
+	setTimeout(function() {
+		if ($scope.authorized && $scope.sk) {
+			$scope.reload();
+		} else {
+			setTimeout(arguments.callee, 1000);
+		}
+	}, 0);
 });

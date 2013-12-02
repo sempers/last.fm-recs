@@ -1,8 +1,8 @@
-<span class="span-controls">
+<span ng-hide="!authorized" class="span-controls">
 Limit: <input id="limitInput" type="text" ng-model="limit" ng-value="{{limit}}" ng-change="validateLimit()"/>
 <a href="#" ng-click="reload()">Reload</a>
 </span>
-<span class="span-status">{{status}}</span>
+<span ng-hide="!authorized" class="span-status">{{status}}</span>
 <br/>
 <table ng-hide="!authorized" class="table-striped rec-table">
 <tbody>
