@@ -17,7 +17,7 @@
 	<div class="container" ng-controller="AppCtrl" style="margin-bottom: 30px;">
 		<h2>Last.fm custom recommendations</h2>
 		<p ng-hide="authorized">Please authorize at <a ng-href="http://www.last.fm/api/auth/?api_key={{api_key}}&cb={{hostUrl}}">Last.Fm api service</a></p>
-		<p ng-hide="!authorized">You are already authorized. You can <a ng-href="http://www.last.fm/api/auth/?api_key={{api_key}}&cb={{hostUrl}}">reauthorize</a> or
+		<p ng-hide="!authorized">You have already authorized. You can <a ng-href="http://www.last.fm/api/auth/?api_key={{api_key}}&cb={{hostUrl}}">reauthorize</a> or
 		<a href="/recs">load recommendations.</a>		
 		</p>
 		<hr />
