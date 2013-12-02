@@ -54,22 +54,22 @@ angular.module('LastFmRecs.controllers', []).controller('AppCtrl', function($sco
 			    limit : $scope.limit
 			}
 		}).success(function(data, status) {
-			var recs = data.data;
-			recs.forEach(function (r) { 
-				r.playcount = parseInt(r.playcount, 10);
-				r.listeners = parseInt(r.listeners, 10);
-			});
-			$scope.recs = recs;
+			$scope.recs = data.data;
 			$scope.status = data.status;
 		});
 	}
 
 	$scope.reload();
-
+	
+	$scope.p_playcount = function(obj) { return parseInt(obj.playcount, 10); };
+	$scope.p_listeners = function(obj) { return parseInt(obj.listeners, 10); };
+	
+	
 	$scope.queryTag = "";
-	var ascOrder = "glyphicon glyphicon-chevron-down"; // predicate
-	var descOrder = "glyphicon glyphicon-chevron-up"; // predicate ; reverse = true
-	$scope.orderPredicate = "playcount; reverse = true"; //descOrder
+	var ascOrder = "glyphicon glyphicon-chevron-down"; // reverse = false;
+	var descOrder = "glyphicon glyphicon-chevron-up"; //  reverse = true;
+	$scope.orderPredicate = $scope.p_playcount;
+	$scopt.reverse = true;
 
 	$scope.switchIcon = function(id) {
 		var el = document.getElementById(id);
@@ -77,15 +77,15 @@ angular.module('LastFmRecs.controllers', []).controller('AppCtrl', function($sco
 	};
 
 	$scope.playCountHeaderClick = function() {
-		var el = document.getElementById("pc_btn");
-		$scope.orderPredicate = (el.className === ascOrder) ? "playcount; reverse = true" : "playcount";
-		el.className = (el.className === ascOrder) ? descOrder : ascOrder;
+		$scope.switchIcon("pc_btn");
+		$scope.orderPredicate = $scope.p_playcount;
+		$scope.reverse = !$scope.reverse;
 	};
 
 	$scope.listenersHeaderClick = function() {
-		var el = document.getElementById("ls_btn");
-		$scope.orderPredicate = (el.className === ascOrder) ? "listeners; reverse = true" : "listeners";
-		el.className = (el.className === ascOrder) ? descOrder : ascOrder;
+		$scope.switchIcon("ls_btn");
+		$scope.orderPredicate = $scope.p_listeners;
+		$scope.reverse = !$scope.reverse;
 	};
 
 	$scope.filterByTag = function(query, obj) {
