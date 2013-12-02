@@ -37,6 +37,7 @@ app.get('/partials/:name', routes.partials);
 
 // JSON API
 app.get('/api/tags/:name', api.tags);
+app.get('/api/sk', api.sk);
 app.get('/api/name', api.name);
 app.get('/api/recs', api.recs);
 

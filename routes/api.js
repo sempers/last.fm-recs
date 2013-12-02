@@ -50,7 +50,7 @@ function loadTags(artist, api_key, max, callback) {
 					return x.name;
 				});
 			} catch (e) {
-
+				tags = [];
 			}
 			if (max)
 				tags = tags.slice(0, parseInt(max, 10));
@@ -170,29 +170,23 @@ function processArtists(artists, api_key, limit, callback) {
 	}, 1000);
 }
 
-exports.recs = function(req, res) {
-
+exports.sk = function(req, res) {
 	var token = req.query.token;
 	var api_key = req.query.api_key;
-	if (api_key)
-		cache_api_key = api_key;
 	var secret = req.query.secret;
-	var limit = req.query.limit || 200;
 
-	console.log("Starting getting recs: token=", token, " api_key=", api_key, " secret=", secret);
 	var blankResult = {
-	    data : [],
-	    status : "blank"
+	    sk : "",
+	    status : ""
 	};
 
 	if (!token) {
-		blankResult.status = "No token was provided.";
+		blankResult.status = "No token found.";
 		res.json(blankResult);
 		return;
 	}
 
 	// 1. Getting session key
-
 	var params = {
 	    method : "auth.getSession",
 	    api_key : api_key,
@@ -216,38 +210,63 @@ exports.recs = function(req, res) {
 			return;
 		}
 		console.log("Got session key: ", sk);
-
-		// 2. Getting recommended artists
-		params = {
-		    method : "user.getRecommendedArtists",
-		    api_key : api_key,
+		res.json({
 		    sk : sk,
-		    limit : limit
-		};
-		// call getRecommendedArtists
-		request(lastFmService + qs.stringify(buildParams(params, secret)), function(error1, response1, body1) {
-			if (error1 || response1.statusCode !== 200) {
-				blankResult.status = "getRecommendedArtists error. Reverting to default.";
-				res.json(blankResult);
-				return;
-			}
-			console.log("Recommendations loaded. Filling up values.")
-			var artists = [];
-			try {
-				artists = (JSON.parse(body1)).recommendations.artist;
-			} catch (e) {
-				blankResult.status = "Bad recommendations. Reverting to default.";
-				res.json(blankResult);
-				return;
-			}
+		    status : "OK"
+		});
+	});
+};
 
-			// 3. filling tags field
-			processArtists(artists, api_key, limit, function(data) {
-				console.log("Recs successfully retrieved!");
-				res.json({
-				    data : data,
-				    status : "OK"
-				});
+exports.recs = function(req, res) {
+	var sk = req.query.sk;
+	var api_key = req.query.api_key;
+	if (api_key)
+		cache_api_key = api_key;
+	var secret = req.query.secret;
+	var limit = req.query.limit || 200;
+
+	console.log("Starting getting recs: sk=", sk, " api_key=", api_key, " secret=", secret);
+	var blankResult = {
+	    data : [],
+	    status : "blank"
+	};
+
+	if (!sk) {
+		blankResult.status = "No session key found.";
+		res.json(blankResult);
+		return;
+	}
+
+	// 2. Getting recommended artists
+	var params = {
+	    method : "user.getRecommendedArtists",
+	    api_key : api_key,
+	    sk : sk,
+	    limit : limit
+	};
+	// call getRecommendedArtists
+	request(lastFmService + qs.stringify(buildParams(params, secret)), function(error1, response1, body1) {
+		if (error1 || response1.statusCode !== 200) {
+			blankResult.status = "getRecommendedArtists error. Probable authorization error. Try to reauthorize.";
+			res.json(blankResult);
+			return;
+		}
+		console.log("Recommendations loaded. Filling up values.");
+		var artists = [];
+		try {
+			artists = (JSON.parse(body1)).recommendations.artist;
+		} catch (e) {
+			blankResult.status = "Bad recommendations. Probable authorization error. Try to reauthorize.";
+			res.json(blankResult);
+			return;
+		}
+
+		// 3. filling tags field
+		processArtists(artists, api_key, limit, function(data) {
+			console.log("Recs successfully retrieved!");
+			res.json({
+			    data : data,
+			    status : "OK"
 			});
 		});
 	});
