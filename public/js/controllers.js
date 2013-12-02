@@ -7,8 +7,7 @@ angular.module('LastFmRecs.controllers', []).controller('AppCtrl', function($sco
 	$scope.authorized = false;
 	$scope.api_key = API_KEY;
 	$scope.secret = SECRET;
-	//$scope.hostUrl = "http://localhost:3000";
-	$scope.hostUrl = "http://lfmrecs.herokuapp.com";
+	$scope.hostUrl = "http://localhost:3000";
 	$scope.token = $location.search().token || localStorage['token'];
 	if ($scope.token) {
 		$scope.authorized = true;
@@ -62,8 +61,8 @@ angular.module('LastFmRecs.controllers', []).controller('AppCtrl', function($sco
 	$scope.reload();
 
 	$scope.queryTag = "";
-	var ascOrder = "glyphicon glyphicon-chevron-up";
-	var descOrder = "glyphicon glyphicon-chevron-down";
+	var ascOrder = "glyphicon glyphicon-chevron-down"; // predicate
+	var descOrder = "glyphicon glyphicon-chevron-up"; // -predicate
 	$scope.orderPredicate = "-playcount";
 
 	$scope.switchIcon = function(id) {
@@ -72,13 +71,15 @@ angular.module('LastFmRecs.controllers', []).controller('AppCtrl', function($sco
 	};
 
 	$scope.playCountHeaderClick = function() {
-		$scope.switchIcon("pc_btn");
-		$scope.orderPredicate = ($scope.orderPredicate === "playcount") ? "-playcount" : "playcount";
+		var el = document.getElementById("pc_btn");
+		$scope.orderPredicate = (el.className === ascOrder) ? "-playcount" : "playcount";
+		el.className = (el.className === ascOrder) ? descOrder : ascOrder;
 	};
 
 	$scope.listenersHeaderClick = function() {
-		$scope.switchIcon("ls_btn");
-		$scope.orderPredicate = ($scope.orderPredicate === "listeners") ? "-listeners" : "listeners";
+		var el = document.getElementById("ls_btn");
+		$scope.orderPredicate = (el.className === ascOrder) ? "-listeners" : "listeners";
+		el.className = (el.className === ascOrder) ? descOrder : ascOrder;
 	};
 
 	$scope.filterByTag = function(query, obj) {
