@@ -69,7 +69,7 @@ angular.module('LastFmRecs.controllers', []).controller('AppCtrl', function($sco
 	var ascOrder = "glyphicon glyphicon-chevron-down"; // reverse = false;
 	var descOrder = "glyphicon glyphicon-chevron-up"; //  reverse = true;
 	$scope.orderPredicate = $scope.p_playcount;
-	$scopt.reverse = true;
+	$scope.reverse = true;
 
 	$scope.switchIcon = function(id) {
 		var el = document.getElementById(id);
