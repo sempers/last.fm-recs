@@ -232,7 +232,7 @@ exports.recs = function(req, res) {
 	};
 
 	if (!sk) {
-		blankResult.status = "No session key found.";
+		blankResult.status = "No session key found. Please reauthorize.";
 		res.json(blankResult);
 		return;
 	}
