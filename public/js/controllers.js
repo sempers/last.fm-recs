@@ -54,7 +54,12 @@ angular.module('LastFmRecs.controllers', []).controller('AppCtrl', function($sco
 			    limit : $scope.limit
 			}
 		}).success(function(data, status) {
-			$scope.recs = data.data;
+			var recs = data.data;
+			recs.forEach(function (r) { 
+				r.playcount = parseInt(r.playcount, 10);
+				r.listeners = parseInt(r.listeners, 10);
+			});
+			$scope.recs = recs;
 			$scope.status = data.status;
 		});
 	}
