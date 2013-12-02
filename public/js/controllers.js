@@ -7,7 +7,8 @@ angular.module('LastFmRecs.controllers', []).controller('AppCtrl', function($sco
 	$scope.authorized = false;
 	$scope.api_key = API_KEY;
 	$scope.secret = SECRET;
-	$scope.hostUrl = "http://localhost:3000";
+	//$scope.hostUrl = "http://localhost:3000";
+	$scope.hostUrl = "http://lfmrecs.herokuapp.com";
 	$scope.token = $location.search().token || localStorage['token'];
 	if ($scope.token) {
 		$scope.authorized = true;
