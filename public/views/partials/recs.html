@@ -5,22 +5,32 @@ Limit: <input id="limitInput" type="text" ng-model="limit" ng-value="{{limit}}" 
 <span ng-hide="!authorized" class="span-status">{{status}}</span>
 <br/>
 <table ng-hide="!authorized" class="table-striped rec-table">
-<tbody>
-<tr>
-<th class="numcell cnt">#</th>
-<th class="imagecell cnt">Image</th>
-<th class="col-md-3">Name</th>
-<th class="col-md-6">Tags <input id="tagQueryInput" type="text" ng-model="queryTag" placeholder="Tag to filter" ng-value="{{queryTag}}" /> </th>
-<th id="pc_h"><a ng-click="playCountHeaderClick()"><span id="pc_btn" class="glyphicon glyphicon-chevron-up" ></span></a> Playcount</th>
-<th id="ls_h"><a ng-click="listenersHeaderClick()"><span id="ls_btn" class="glyphicon glyphicon-chevron-up" ></span></a> Listeners</th>
-</tr>
-<tr ng-repeat="rec in recs | filter:queryTag:filterByTag | orderBy:orderPredicate:reverse">
-<td class="numcell cnt">{{$index + 1}}</td>
-<td class="imagecell cnt"><img src="{{rec.image}}"></td>
-<td class="col-md-3"><a ng-href="http://last.fm/music/{{rec.name}}">{{rec.name}}</a></td>
-<td class="col-md-6">{{rec.tags}}</td>
-<td class="col-md-1">{{rec.playcount}}</td>
-<td class="col-md-1">{{rec.listeners}}</td>
-</tr>
-</tbody>
+    <tbody>
+    <tr>
+        <th class="numcell cnt">#</th>
+        <th class="imagecell cnt">Image</th>
+        <th class="col-md-3">Name</th>
+        <th class="col-md-6">Tags <input id="tagQueryInput" type="text" ng-model="queryTag" placeholder="Tag to filter"
+                                         ng-value="{{queryTag}}"/></th>
+        <th id="pc_h"><a ng-click="playCountHeaderClick()"><span id="pc_btn"
+                                                                 class="glyphicon glyphicon-chevron-up"></span></a>
+            Playcount
+        </th>
+        <th id="ls_h"><a ng-click="listenersHeaderClick()"><span id="ls_btn"
+                                                                 class="glyphicon glyphicon-chevron-up"></span></a>
+            Listeners
+        </th>
+    </tr>
+    <tr ng-repeat="rec in recs | filter:queryTag:filterByTag | orderBy:orderPredicate:reverse" ng-class="{'rec-removed': rec.removed}">
+        <td class="numcell cnt">{{$index + 1}}</td>
+        <td class="imagecell cnt"><img ng-src="{{rec.image}}"></td>
+        <td class="col-md-3" ng-mouseover="rec.showRemoveButton = true" ng-mouseleave="rec.showRemoveButton = false">
+            <a ng-href="http://last.fm/music/{{rec.name}}">{{rec.name}}</a>
+            <a href="" ng-click="removeRec(rec)"><span class="glyphicon glyphicon-remove-circle" ng-show="rec.showRemoveButton && !rec.removed"></span></a>
+        </td>
+        <td class="col-md-6">{{rec.tags}}</td>
+        <td class="col-md-1">{{rec.playcount}}</td>
+        <td class="col-md-1">{{rec.listeners}}</td>
+    </tr>
+    </tbody>
 </table>

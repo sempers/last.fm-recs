@@ -72,3 +72,8 @@ input {
 	width: 64px;
 	max-width: 64px;
 }
+
+.rec-removed {
+    text-decoration: line-through;
+    color: #555555;
+}

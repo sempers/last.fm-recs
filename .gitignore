@@ -1,8 +1,12 @@
+.idea/
+*.db
+
+
 #################
 ## Eclipse
 #################
 
-tags.db
+
 
 *.pydevproject
 .project
